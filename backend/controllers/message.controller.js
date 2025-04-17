@@ -26,9 +26,9 @@ export const sendMessage = async (req, res) => {
             conversation.messages.push(newMessage._id); // Add the new message to the conversation's messages array
         }
 
-        await Promise.all(conversation.save(), newMessage.save());
+        await Promise.all[conversation.save(), newMessage.save()];
 
-        res.status(201).json(newMessage); // Return a success message
+        res.status(201).json([newMessage]); // Return a success message
     } catch (error) {
         console.error(error); // Log the error for debugging purposes
         res.status(500).json({ message: error.message });
