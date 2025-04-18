@@ -2,7 +2,7 @@ import { Icon } from "@iconify/react";
 
 const SerarchInput = () => {
   return (
-    <div className="flex flex-row justify-between gap-3">
+    <div className="flex flex-row justify-between gap-3 border-b border-y-gray-600 pb-5 mb-5">
       <input
         type="text"
         className="input input-neutral rounded-full"

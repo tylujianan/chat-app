@@ -1,17 +1,23 @@
-const GenderCheckbox = () => {
+const GenderCheckbox = ({ onCheckboxChange, selectedGender }) => {
   return (
-    <div className="flex">
+    <div className="flex my-2">
       <div className="form-control">
-        <label className={`label gap-2 cursor-pointer`}>
-          <span className="label">Male</span>
-          <input type="checkbox" className="checkbox mr-2 border-slate-900" />
-        </label>
+        <div className="flex flex-row items-center">
+          <div className="p-2 text-gray-400"><span className='text-base'>Male</span></div>
+          <input type="checkbox" autoComplete="gender" className="checkbox w-6 h-6 text-blue-600 bg-gray-300 checked:bg-gray-300"
+            checked={selectedGender === 'male'}
+            onChange={() => onCheckboxChange('male')}
+          />
+        </div>
       </div>
       <div className="form-control">
-        <label className={`label gap-2 cursor-pointer`}>
-          <span className="label">Female</span>
-          <input type="checkbox" className="checkbox border-slate-900" />
-        </label>
+        <div className="flex flex-row items-center">
+          <div className="p-2 text-gray-400"><span className='text-base'>Female</span></div>
+          <input type="checkbox" autoComplete="gender" className="checkbox w-6 h-6 text-blue-600 bg-gray-300 checked:bg-gray-300"
+            checked={selectedGender === 'female'}
+            onChange={() => onCheckboxChange('female')}
+          />
+        </div>
       </div>
     </div>
   );
