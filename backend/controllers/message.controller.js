@@ -1,63 +1,69 @@
-import Conversation from '../models/conversation.model.js';
-import Message from '../models/message.model.js';
-import { getReceiverSocketId, io } from '../socket/socket.js'; // Import the io object from socket.js file
+import Conversation from "../models/conversation.model.js";
+import Message from "../models/message.model.js";
+import { getReceiverSocketId, io } from "../socket/socket.js";
 
 export const sendMessage = async (req, res) => {
     try {
         const { message } = req.body;
-        const { id: receiverId } = req.params; // Get the conversation ID from the URL parameters
-        const senderId = req.user._id; // Get the sender ID from the authenticated user
+        const { id: receiverId } = req.params;
+        const senderId = req.user._id;
 
         let conversation = await Conversation.findOne({
-            participants: { $all: [senderId, receiverId] } // Find the conversation between the sender and receiver
-        })
+            participants: { $all: [senderId, receiverId] },
+        });
 
-        if (!conversation) { // If the conversation does not exist, create a new one
+        if (!conversation) {
             conversation = await Conversation.create({
-                participants: [senderId, receiverId]
-            })
+                participants: [senderId, receiverId],
+            });
         }
-        const newMessage = await Message.create({ // Create a new message object with the sender ID, message content, and timestamp
-            senderId,
-            message,
-            receiverId,
-        })
 
-        console.log(newMessage);
+        const newMessage = new Message({
+            senderId,
+            receiverId,
+            message,
+        });
 
         if (newMessage) {
-            conversation.messages.push(newMessage._id); // Add the new message to the conversation's messages array
+            conversation.messages.push(newMessage._id);
         }
 
-        await Promise.all[conversation.save(), newMessage.save()];
+        // await conversation.save();
+        // await newMessage.save();
 
-        const receiverSocketId = getReceiverSocketId(receiverId); // Get the socket ID of the receiver from the userSocketMap object
-        if (receiverSocketId) { // If the receiver is online, emit a "receiveMessage" event to their socket with the new message object as the event data
-            io.to(receiverSocketId).emit("receiveMessage", newMessage); // Emit a "receiveMessage" event to the receiver's socket with the new message object as the event data. This allows the receiver to receive the message in real-time.
+        // this will run in parallel
+        await Promise.all([conversation.save(), newMessage.save()]);
+
+        // SOCKET IO FUNCTIONALITY WILL GO HERE
+        const receiverSocketId = getReceiverSocketId(receiverId);
+        if (receiverSocketId) {
+            // io.to(<socket_id>).emit() used to send events to specific client
+            io.to(receiverSocketId).emit("newMessage", newMessage);
         }
-        res.status(201).json([newMessage]); // Return a success message
+
+        res.status(201).json(newMessage);
     } catch (error) {
-        console.error(error); // Log the error for debugging purposes
+        console.log("Error in sendMessage controller: ", error.message);
         res.status(500).json({ error: "Internal server error" });
     }
-}
+};
 
 export const getMessages = async (req, res) => {
     try {
         const { id: userToChatId } = req.params;
-        const senderId = req.user._id; // Get the sender ID from the authenticated user
-        const conversation = await Conversation.findOne({ // Find the conversation between the sender and receiver
-            participants: { $all: [senderId, userToChatId] } // Find the conversation between the sender and receiver
-        }).populate("messages"); // Populate the messages array with the actual message objects
-        if (!conversation) { // If the conversation does not exist, return a 404 error message
-            return res.status(200).json([]);
-        }
+        const senderId = req.user._id;
 
-        const messages = conversation.messages; // Get the messages array from the conversation object
+        const conversation = await Conversation.findOne({
+            participants: { $all: [senderId, userToChatId] },
+        }).populate("messages"); // NOT REFERENCE BUT ACTUAL MESSAGES
 
-        res.status(200).json(messages); // Return the conversation object as a respons
+        if (!conversation) return res.status(200).json([]);
+
+        const messages = conversation.messages;
+
+        res.status(200).json(messages);
     } catch (error) {
-        console.error(error); // Log the error for debugging purposes
-        res.status(500).json({ message: error.message });
+        console.log("Error in getMessages controller: ", error.message);
+        res.status(500).json({ error: "Internal server error" });
     }
-}
+};
