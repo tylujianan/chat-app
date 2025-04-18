@@ -47,15 +47,15 @@ export const signup = async (req, res) => {
 export const login = async (req, res) => {
     try {
         const { username, password } = req.body;
-        const user = await User.findOne({ username });
-        const isMatch = await bcrypt.compare(password, user.password || ''); // Use an empty string as the default value for user.password if it is undefined
+        const user = await User.findOne({ username }) || {};
+        const isMatch = await bcrypt.compare(password, user?.password || ""); // Use an empty string as the default value for user.password if it is undefined
         if (!user || !isMatch) {
             return res.status(400).json({ error: 'Invalid username or password' }); // 400 Bad Request status code for invalid credentials
         }
 
         generateTokenSetCookie(user._id, res);
         res.status(200).json({ // 200 OK status code for successful login
-            id: user._id,
+            _id: user._id,
             fullname: user.fullname,
             username: user.username,
             profilePic: user.profilePic,
