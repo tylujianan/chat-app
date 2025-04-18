@@ -4,11 +4,10 @@ import cookieParser from 'cookie-parser';
 import authRoutes from './routes/auth.routes.js';
 import messageRoutes from './routes/message.routes.js';
 import userRoutes from './routes/user.routes.js';
-// import conversationRoutes from './routes/conversation.routes.js';
+import { app, server } from './socket/socket.js'; // 假设你有一个 socket.js 文件来处理 WebSocket 连接和事件处理
 
 import connectToMongoDB from './db/connectToMongoDB.js';
 
-const app = express();
 const PORT = process.env.PORT || 8000;
 
 dotenv.config();
@@ -21,7 +20,7 @@ app.use("/api/messages", messageRoutes);
 app.use("/api/users", userRoutes); // 假设你有一个用户路由文件 user.routes.js 来处理用户相关的路由
 // app.use("/api/conversations", conversationRoutes);
 
-app.listen(PORT, () => {
+server.listen(PORT, () => {
     connectToMongoDB();
     console.log(`Server is running on port ${PORT}`);
 })
