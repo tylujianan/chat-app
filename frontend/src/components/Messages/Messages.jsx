@@ -6,10 +6,11 @@ import useListenMessages from '../../hooks/useListenMessages.js'
 
 const Messages = () => {
     const { messages, isloading } = useGetMessages();
-    useListenMessages();
     const lastMessageRef = useRef();
     const containerRef = useRef(null);
     const [isFirstRender, setIsFirstRender] = useState(true);
+
+    useListenMessages();
 
     useEffect(() => {
         if (containerRef.current && isFirstRender) {
