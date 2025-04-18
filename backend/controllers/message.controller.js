@@ -16,7 +16,7 @@ export const sendMessage = async (req, res) => {
                 participants: [senderId, receiverId]
             })
         }
-        const newMessage = new Message({ // Create a new message object with the sender ID, message content, and timestamp
+        const newMessage = await Message.create({ // Create a new message object with the sender ID, message content, and timestamp
             senderId,
             message,
             receiverId,
