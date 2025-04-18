@@ -24,6 +24,6 @@
     "socket.io": "^4.8.1"
   },
   "resolutions": {
-    "rollup": "3.29.4"
+    "rollup": "npm:@rollup/wasm-node@*"
   }
 }
