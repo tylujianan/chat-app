@@ -24,6 +24,7 @@ app.use("/api/users", userRoutes); // 假设你有一个用户路由文件 user.
 
 app.use(express.static(path.join(__dirname, '/frontend/dist'))); // Serve static files from the public directory. This is used to serve the index.html file when the user visits the root URL.
 
+// app.get('*'，(req, res) => {}) express V4写法，express V5写法如下：
 app.get('*splat', (req, res) => {
     res.sendFile(path.join(__dirname, "frontend", "dist", "index.html"));
 })
