@@ -12,5 +12,11 @@ export default defineConfig({
         target: 'http://localhost:8000'
       }
     }
+  },
+  build: {
+    outDir: 'dist',
+    rollupOptions: {
+      input: resolve(__dirname, 'index.html') // 指向源码中的 HTML
+    }
   }
 })
