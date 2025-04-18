@@ -2,9 +2,11 @@ import React, { useState, useEffect, useRef } from 'react'
 import Message from './Message.jsx'
 import useGetMessages from '../../hooks/useGetMessages.js'
 import MessageSkeleton from '../skeletons/MessageSkeleton'
+import useListenMessages from '../../hooks/useListenMessages.js'
 
 const Messages = () => {
     const { messages, isloading } = useGetMessages();
+    useListenMessages();
     const lastMessageRef = useRef();
     const containerRef = useRef(null);
     const [isFirstRender, setIsFirstRender] = useState(true);

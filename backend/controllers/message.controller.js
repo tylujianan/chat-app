@@ -1,5 +1,6 @@
 import Conversation from '../models/conversation.model.js';
 import Message from '../models/message.model.js';
+import { getReceiverSocketId, io } from '../socket/socket.js'; // Import the io object from socket.js file
 
 export const sendMessage = async (req, res) => {
     try {
@@ -30,6 +31,10 @@ export const sendMessage = async (req, res) => {
 
         await Promise.all[conversation.save(), newMessage.save()];
 
+        const receiverSocketId = getReceiverSocketId(receiverId); // Get the socket ID of the receiver from the userSocketMap object
+        if (receiverSocketId) { // If the receiver is online, emit a "receiveMessage" event to their socket with the new message object as the event data
+            io.to(receiverSocketId).emit("receiveMessage", newMessage); // Emit a "receiveMessage" event to the receiver's socket with the new message object as the event data. This allows the receiver to receive the message in real-time.
+        }
         res.status(201).json([newMessage]); // Return a success message
     } catch (error) {
         console.error(error); // Log the error for debugging purposes
