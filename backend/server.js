@@ -21,7 +21,6 @@ app.use(cookieParser()); // for parsing cookies from request headers
 app.use("/api/auth", authRoutes);
 app.use("/api/messages", messageRoutes);
 app.use("/api/users", userRoutes); // 假设你有一个用户路由文件 user.routes.js 来处理用户相关的路由
-// app.use("/api/conversations", conversationRoutes);
 
 app.use(express.static(path.join(__dirname, '/frontend/dist'))); // Serve static files from the public directory. This is used to serve the index.html file when the user visits the root URL.
 
