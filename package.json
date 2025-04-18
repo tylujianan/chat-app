@@ -23,7 +23,7 @@
     "react-hot-toast": "^2.5.2",
     "socket.io": "^4.8.1"
   },
-  "resolutions": {
-    "rollup": "npm:@rollup/wasm-node@*"
+  "optionalDependencies": {
+    "@rollup/rollup-linux-x64-gnu": "4.9.5"
   }
 }
