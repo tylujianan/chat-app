@@ -784,6 +784,17 @@
     "@types/babel__core" "^7.20.5"
     react-refresh "^0.17.0"
 
+"@vitejs/plugin-react@^4.4.0":
+  version "4.4.0"
+  resolved "https://registry.npmmirror.com/@vitejs/plugin-react/-/plugin-react-4.4.0.tgz#a658e563d08f3907dbceb3be1bca5272665e6372"
+  integrity sha512-x/EztcTKVj+TDeANY1WjNeYsvZjZdfWRMP/KXi5Yn8BoTzpa13ZltaQqKfvWYbX8CE10GOHHdC5v86jY9x8i/g==
+  dependencies:
+    "@babel/core" "^7.26.10"
+    "@babel/plugin-transform-react-jsx-self" "^7.25.9"
+    "@babel/plugin-transform-react-jsx-source" "^7.25.9"
+    "@types/babel__core" "^7.20.5"
+    react-refresh "^0.17.0"
+
 accepts@^2.0.0:
   version "2.0.0"
   resolved "https://registry.npmmirror.com/accepts/-/accepts-2.0.0.tgz#bbcf4ba5075467f3f2131eab3cffc73c2f5d7895"
@@ -952,6 +963,7 @@ chalk@^4.0.0:
 "chat-app@file:..":
   version "1.0.0"
   dependencies:
+    "@vitejs/plugin-react" "^4.3.4"
     bcryptjs "^3.0.2"
     cookie-parser "^1.4.7"
     dotenv "^16.5.0"
