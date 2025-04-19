@@ -15,7 +15,7 @@ export const SocketContextProvider = ({ children }) => {
 
     useEffect(() => { // Use useEffect to create and manage the socket connection [useEffect]
         if (authUser) {
-            const socket = io("https://chat-app-ruby-gamma.vercel.app/", {
+            const socket = io("https://chat-app-prod-kbu7.onrender.com/", {
                 query: {
                     userId: authUser._id, // Pass the userId as a query parameter [query:{userId: authUser._id}]
                 }
