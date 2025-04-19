@@ -8,19 +8,20 @@ const Messages = () => {
     const { messages, isloading } = useGetMessages();
     const lastMessageRef = useRef();
     const containerRef = useRef(null);
-    const [isFirstRender, setIsFirstRender] = useState(true);
+    // const [isFirstRender, setIsFirstRender] = useState(true);
 
     useListenMessages();
-
+    let isFirstRender = true;
     useEffect(() => {
+        // console.log(isloading)
         if (containerRef.current && isFirstRender) {
             containerRef.current.scrollTop = containerRef.current.scrollHeight;
-            setIsFirstRender(false); // 确保只执行一次
+            if (!isloading) isFirstRender = false;
         }
     }, [isloading]);
 
     useEffect(() => {
-        if (lastMessageRef.current && !isFirstRender) {
+        if (lastMessageRef.current) {
             setTimeout(() => {
                 lastMessageRef.current?.scrollIntoView({ behavior: "smooth" });
             }, 100);
