@@ -4,7 +4,9 @@ import io from "socket.io-client";
 
 const SocketContext = createContext();
 
-const socketUrl = process.env.NODE_ENV == 'development' ? `http://localhost:${process.env.PORT}` : process.env.SOCKET_URL;
+
+const isProduction = import.meta.env.PROD;
+const socketUrl = isProduction ? 'https://chat-app-prod-kbu7.onrender.com/' : 'http://localhost:8000'
 
 export const useSocketContext = () => { // Create a custom hook to access the socket context [useSocketContext]
     return useContext(SocketContext); // Return the socket context [useContext(SocketContext)]
