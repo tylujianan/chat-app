@@ -4,6 +4,8 @@ import io from "socket.io-client";
 
 const SocketContext = createContext();
 
+const socketUrl = process.env.NODE_ENV == 'development' ? `http://localhost:${process.env.PORT}` : process.env.SOCKET_URL;
+
 export const useSocketContext = () => { // Create a custom hook to access the socket context [useSocketContext]
     return useContext(SocketContext); // Return the socket context [useContext(SocketContext)]
 }
@@ -15,7 +17,7 @@ export const SocketContextProvider = ({ children }) => {
 
     useEffect(() => { // Use useEffect to create and manage the socket connection [useEffect]
         if (authUser) {
-            const socket = io("https://chat-app-prod-kbu7.onrender.com/", {
+            const socket = io(socketUrl, {
                 query: {
                     userId: authUser._id, // Pass the userId as a query parameter [query:{userId: authUser._id}]
                 }
